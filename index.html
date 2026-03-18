@@ -60,27 +60,26 @@
   <div id="resultado"></div>
 
  <script>
-  async function mostrarPelicula() {
+ async function mostrarPelicula() {
     const genero = document.getElementById("genero").value;
     const divResultado = document.getElementById("resultado");
     
-    divResultado.innerText = "Buscando...";
+    divResultado.innerHTML = "<p>Buscando...</p>";
 
     try {
-      // Llamamos a tu archivo PHP pasándole el género
-      const respuesta = await fetch(`rentaPeliculas.php?genero=${genero}`);
-      const datos = await respuesta.json(); // Convertimos la respuesta a JSON
+        const respuesta = await fetch(`rentaPeliculas.php?genero=${genero}`);
+        const datos = await respuesta.json();
 
-      // Mostramos la recomendación que viene del PHP
-      divResultado.innerText = datos.recomendacion;
+        // Limpiamos el div y agregamos el contenido nuevo
+        divResultado.innerHTML = `
+            <p>${datos.recomendacion}</p>
+            ${datos.poster ? `<img src="${datos.poster}" alt="Poster" style="width:200px; border-radius:10px; margin-top:10px;">` : ''}
+        `;
     } catch (error) {
-      divResultado.innerText = "Error al conectar con el servidor";
-      console.error(error);
+        divResultado.innerText = "Error al conectar con el servidor";
+        console.error(error);
     }
-  }
-
-  // Hacer la función accesible para el botón
-  window.mostrarPelicula = mostrarPelicula;
+}
 </script>
 
 </body>
