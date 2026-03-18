@@ -59,18 +59,29 @@
 
   <div id="resultado"></div>
 
-  <script type="module">
-    import { rentaPeliculas } from './src/rentaPeliculas.js';
+ <script>
+  async function mostrarPelicula() {
+    const genero = document.getElementById("genero").value;
+    const divResultado = document.getElementById("resultado");
+    
+    divResultado.innerText = "Buscando...";
 
-    function mostrarPelicula() {
-      const genero = document.getElementById("genero").value;
-      const resultado = rentaPeliculas(genero);
-      document.getElementById("resultado").innerText = resultado;
+    try {
+      // Llamamos a tu archivo PHP pasándole el género
+      const respuesta = await fetch(`rentaPeliculas.php?genero=${genero}`);
+      const datos = await respuesta.json(); // Convertimos la respuesta a JSON
+
+      // Mostramos la recomendación que viene del PHP
+      divResultado.innerText = datos.recomendacion;
+    } catch (error) {
+      divResultado.innerText = "Error al conectar con el servidor";
+      console.error(error);
     }
+  }
 
-    // Hacer la función accesible globalmente
-    window.mostrarPelicula = mostrarPelicula;
-  </script>
+  // Hacer la función accesible para el botón
+  window.mostrarPelicula = mostrarPelicula;
+</script>
 
 </body>
 </html>
