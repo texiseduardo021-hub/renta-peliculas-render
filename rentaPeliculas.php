@@ -1,35 +1,38 @@
 <?php
-// 1. Establecer el encabezado para que el navegador sepa que es JSON
 header("Content-Type: application/json");
 
-/**
- * Función que recomienda película según género
- */
-function rentaPeliculas($genero) {
-    // Pasamos el género a minúsculas para evitar errores de coincidencia
+function obtenerDatosPelicula($genero) {
     $genero = strtolower($genero);
 
+    // Definimos nombre e imagen para cada género
     if ($genero === "accion") {
-        return "John Wick";
+        return [
+            "nombre" => "John Wick",
+            "imagen" => "https://play-lh.googleusercontent.com/vByxM5S2LXTqxdDo84ilW2D1M8WWDC-Om3M2wWwZ3Nb9pU70MAceTI3HvPJL5Yq0i9Xj"
+        ];
     } elseif ($genero === "comedia") {
-        return "Superbad";
+        return [
+            "nombre" => "Superbad",
+            "imagen" => "https://m.media-amazon.com/images/S/pv-target-images/bb91a439ff92a68e22fc18b3f00a4572c1048741a60d3a5ddfcac4814e1da972.jpg"
+        ];
     } elseif ($genero === "terror") {
-        return "El Conjuro";
+        return [
+            "nombre" => "El Conjuro",
+            "imagen" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT57CO5hDa_xALgOGpFGt9W6_Xlt8gAeM6SSQ&s"
+        ];
     } else {
-        return "No tenemos películas de ese género";
+        return [
+            "nombre" => "No disponible",
+            "imagen" => "https://media.tenor.com/-0mYUnkUOXIAAAAM/oh-raios-que-raios.gif" 
+        ];
     }
 }
 
-// 2. Obtener el parámetro desde la URL (?genero=nombre)
-// Usamos ?? para dar un valor vacío si no se envía nada
 $generoSeleccionado = $_GET['genero'] ?? "";
+$datos = obtenerDatosPelicula($generoSeleccionado);
 
-// 3. Crear el arreglo de respuesta
-$respuesta = [
+echo json_encode([
     "genero" => $generoSeleccionado,
-    "recomendacion" => rentaPeliculas($generoSeleccionado)
-];
-
-// 4. Enviar la respuesta final en formato JSON
-echo json_encode($respuesta);
-?>
+    "recomendacion" => $datos["nombre"],
+    "poster" => $datos["imagen"] // Nueva clave con la URL
+]);
