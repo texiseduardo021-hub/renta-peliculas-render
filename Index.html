@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Renta de Películas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #ffcc00;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      background-color: #ffcc00;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ffaa00;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎬 Renta de Películas</h1>
+
+  <p>Selecciona un género:</p>
+
+  <select id="genero">
+    <option value="accion">Acción</option>
+    <option value="comedia">Comedia</option>
+    <option value="terror">Terror</option>
+    <option value="otro">Otro</option>
+  </select>
+
+  <br>
+
+  <button onclick="mostrarPelicula()">Buscar película</button>
+
+  <div id="resultado"></div>
+
+  <script type="module">
+    import { rentaPeliculas } from './src/rentaPeliculas.js';
+
+    function mostrarPelicula() {
+      const genero = document.getElementById("genero").value;
+      const resultado = rentaPeliculas(genero);
+      document.getElementById("resultado").innerText = resultado;
+    }
+
+    // Hacer la función accesible globalmente
+    window.mostrarPelicula = mostrarPelicula;
+  </script>
+
+</body>
+</html>
