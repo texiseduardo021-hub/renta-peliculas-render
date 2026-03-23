@@ -1,41 +1,68 @@
-<script>
-async function mostrarPelicula() {
-    const genero = document.getElementById("genero").value;
-    const divResultado = document.getElementById("resultado");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Renta de Películas</title>
+</head>
+<body style="font-family: Arial; text-align:center; background:#1e1e2f; color:white;">
 
-    // Validación (m12valida)
-    if (!genero) {
-        divResultado.innerHTML = "<p style='color:red'>Selecciona un género</p>";
-        return;
-    }
+    <h1>🎬 Renta de Películas</h1>
 
-    divResultado.innerHTML = "<p>⏳ Buscando...</p>";
+    <select id="genero" style="padding:10px; border-radius:5px;">
+        <option value="">Selecciona un género</option>
+        <option value="accion">Acción</option>
+        <option value="comedia">Comedia</option>
+        <option value="terror">Terror</option>
+    </select>
 
-    try {
-        const respuesta = await fetch(`rentaPeliculas.php?genero=${genero}`);
-        const datos = await respuesta.json();
+    <br><br>
 
-        // Manejo de errores del servidor (m02servicio)
-        if (!datos.ok) {
-            divResultado.innerHTML = `<p style="color:red">${datos.error}</p>`;
+    <button onclick="mostrarPelicula()" 
+            style="padding:10px 20px; border:none; border-radius:5px; background:#ff4757; color:white;">
+        Buscar
+    </button>
+
+    <div id="resultado" style="margin-top:20px;"></div>
+
+    <!-- 🔥 AQUÍ VA TU SCRIPT -->
+    <script>
+    async function mostrarPelicula() {
+        const genero = document.getElementById("genero").value;
+        const divResultado = document.getElementById("resultado");
+
+        if (!genero) {
+            divResultado.innerHTML = "<p style='color:red'>Selecciona un género</p>";
             return;
         }
 
-        const peli = datos.data;
+        divResultado.innerHTML = "<p>⏳ Buscando...</p>";
 
-        // Render dinámico (m11muestra + m12renderServidor)
-        divResultado.innerHTML = `
-            <div style="background:#2c2c3e; padding:20px; border-radius:10px;">
-                <h2>${peli.recomendacion}</h2>
-                <img src="${peli.poster}" 
-                     style="width:200px; border-radius:10px; margin-top:10px;">
-                <p style="margin-top:10px;">Género: ${peli.genero}</p>
-            </div>
-        `;
+        try {
+            const respuesta = await fetch(`rentaPeliculas.php?genero=${genero}`);
+            const datos = await respuesta.json();
 
-    } catch (error) {
-        divResultado.innerHTML = "<p style='color:red'>Error al conectar con el servidor</p>";
-        console.error(error);
+            if (!datos.ok) {
+                divResultado.innerHTML = `<p style="color:red">${datos.error}</p>`;
+                return;
+            }
+
+            const peli = datos.data;
+
+            divResultado.innerHTML = `
+                <div style="background:#2c2c3e; padding:20px; border-radius:10px;">
+                    <h2>${peli.recomendacion}</h2>
+                    <img src="${peli.poster}" 
+                         style="width:200px; border-radius:10px; margin-top:10px;">
+                    <p style="margin-top:10px;">Género: ${peli.genero}</p>
+                </div>
+            `;
+
+        } catch (error) {
+            divResultado.innerHTML = "<p style='color:red'>Error al conectar con el servidor</p>";
+            console.error(error);
+        }
     }
-}
-</script>
+    </script>
+
+</body>
+</html>
