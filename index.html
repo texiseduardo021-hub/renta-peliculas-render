@@ -1,86 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Renta de Películas</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #1e1e2f;
-      color: white;
-      text-align: center;
-      padding: 50px;
-    }
-
-    h1 {
-      color: #ffcc00;
-    }
-
-    select, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-    }
-
-    button {
-      background-color: #ffcc00;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #ffaa00;
-    }
-
-    #resultado {
-      margin-top: 20px;
-      font-size: 20px;
-      color: #00ffcc;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>🎬 Renta de Películas</h1>
-
-  <p>Selecciona un género:</p>
-
-  <select id="genero">
-    <option value="accion">Acción</option>
-    <option value="comedia">Comedia</option>
-    <option value="terror">Terror</option>
-    <option value="otro">Otro</option>
-  </select>
-
-  <br>
-
-  <button onclick="mostrarPelicula()">Buscar película</button>
-
-  <div id="resultado"></div>
-
- <script>
- async function mostrarPelicula() {
+<script>
+async function mostrarPelicula() {
     const genero = document.getElementById("genero").value;
     const divResultado = document.getElementById("resultado");
-    
-    divResultado.innerHTML = "<p>Buscando...</p>";
+
+    // Validación (m12valida)
+    if (!genero) {
+        divResultado.innerHTML = "<p style='color:red'>Selecciona un género</p>";
+        return;
+    }
+
+    divResultado.innerHTML = "<p>⏳ Buscando...</p>";
 
     try {
         const respuesta = await fetch(`rentaPeliculas.php?genero=${genero}`);
         const datos = await respuesta.json();
 
-        // Limpiamos el div y agregamos el contenido nuevo
+        // Manejo de errores del servidor (m02servicio)
+        if (!datos.ok) {
+            divResultado.innerHTML = `<p style="color:red">${datos.error}</p>`;
+            return;
+        }
+
+        const peli = datos.data;
+
+        // Render dinámico (m11muestra + m12renderServidor)
         divResultado.innerHTML = `
-            <p>${datos.recomendacion}</p>
-            ${datos.poster ? `<img src="${datos.poster}" alt="Poster" style="width:200px; border-radius:10px; margin-top:10px;">` : ''}
+            <div style="background:#2c2c3e; padding:20px; border-radius:10px;">
+                <h2>${peli.recomendacion}</h2>
+                <img src="${peli.poster}" 
+                     style="width:200px; border-radius:10px; margin-top:10px;">
+                <p style="margin-top:10px;">Género: ${peli.genero}</p>
+            </div>
         `;
+
     } catch (error) {
-        divResultado.innerText = "Error al conectar con el servidor";
+        divResultado.innerHTML = "<p style='color:red'>Error al conectar con el servidor</p>";
         console.error(error);
     }
 }
 </script>
-
-</body>
-</html>
