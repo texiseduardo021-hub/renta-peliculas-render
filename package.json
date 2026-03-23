@@ -1,15 +1,13 @@
 {
   "name": "renta-peliculas",
   "version": "1.0.0",
-  "description": "Proyecto de servicios web - renta de películas",
-  "main": "index.js",
+  "description": "Proyecto de servicios web",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "jasmine"
+    "start": "node server.js"
   },
-  "author": "Eduardo",
-  "license": "ISC",
-  "devDependencies": {
-    "jasmine": "^5.1.0"
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
