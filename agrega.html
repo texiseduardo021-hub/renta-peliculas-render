@@ -1,1 +1,17 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Película</title>
+</head>
+<body>
+  <form onsubmit="import('./js/lib/submitAccion.js').then(m => m.submitAccion(event, 'php/pelicula-agrega.php', 'index.html'))">
+    <h1>Agregar Película</h1>
+    <p><label>Título <input name="titulo" type="text" required></label></p>
+    <p><label>Género <input name="genero" type="text" required></label></p>
+    <p><label>Sinopsis <textarea name="sinopsis" required></textarea></label></p>
+    <button type="submit">Guardar</button>
+    <a href="index.html">Cancelar</a>
+  </form>
+</body>
+</html>
