@@ -1,4 +1,5 @@
 <?php
+// php/pelicula-vista-modifica.php
 require_once __DIR__ . "/lib/manejaErrores.php";
 require_once __DIR__ . "/lib/recibeEnteroObligatorio.php";
 require_once __DIR__ . "/lib/validaEntidadObligatoria.php";
@@ -14,7 +15,6 @@ try {
 
   validaEntidadObligatoria($modelo);
 
-  // Mandamos los datos a los "value" del formulario
   devuelveJson([
     "id" => ["value" => $modelo["PEL_ID"]],
     "titulo" => ["value" => $modelo["PEL_TITULO"]],
