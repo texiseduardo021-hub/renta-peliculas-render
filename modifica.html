@@ -1,1 +1,24 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Modificar Película</title>
+</head>
+<body onload="const params = new URLSearchParams(location.search); 
+              import('./js/lib/consume.js').then(m => m.consume('php/pelicula-vista-modifica.php', '', params))">
+  <form onsubmit="import('./js/lib/submitAccion.js').then(m => m.submitAccion(event, 'php/pelicula-modifica.php', 'index.html'))">
+    <h1>Modificar Película</h1>
+    <input name="id" type="hidden">
+    <p><label>Título <input name="titulo" type="text" required></label></p>
+    <p><label>Género <input name="genero" type="text" required></label></p>
+    <p><label>Sinopsis <textarea name="sinopsis" required></textarea></label></p>
+    
+    <button type="submit">Guardar Cambios</button>
+    <button type="button" onclick="if(confirm('¿Eliminar?')) { 
+      const fd = new FormData(); fd.append('id', document.getElementsByName('id')[0].value);
+      import('./js/lib/consume.js').then(m => m.consume('php/pelicula-elimina.php', '', fd)).then(() => location.href='index.html');
+    }">Eliminar</button>
+    <a href="index.html">Cancelar</a>
+  </form>
+</body>
+</html>
