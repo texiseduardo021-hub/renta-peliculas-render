@@ -1,6 +1,10 @@
 <?php
-function NOT_FOUND() {
+function NO_ENCONTRADO() {
   http_response_code(404);
-  echo json_encode(["detalle" => "No encontrado"]);
+  echo json_encode([
+    "title" => "No encontrado",
+    "status" => 404,
+    "detail" => "El recurso solicitado no existe."
+  ]);
   exit;
 }
