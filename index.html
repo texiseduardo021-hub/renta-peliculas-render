@@ -1,1 +1,12 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Películas</title>
+</head>
+<body onload="import('./js/lib/consume.js').then(m => m.consume('php/pelicula-vista-index.php', 'lista'))">
+  <h1>Películas</h1>
+  <nav><a href="agrega.html">Agregar...</a></nav>
+  <ul id="lista"><li>Cargando...</li></ul>
+</body>
+</html>
