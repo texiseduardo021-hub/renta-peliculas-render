@@ -1,11 +1,14 @@
-export async function enviaFormRecibeJson(event, url, destino) {
+export async function enviaFormRecibeJson(event, url) {
   event.preventDefault();
   const formData = new FormData(event.target);
-  const response = await fetch(url, { method: "POST", body: formData });
+  const response = await fetch(url, {
+    method: "POST",
+    body: formData
+  });
   if (response.ok) {
-    location.href = destino;
+    return await response.json();
   } else {
     const error = await response.json();
-    alert(error.detalle || "Error al procesar");
+    throw new Error(error.detail || "Error en el servidor");
   }
 }
