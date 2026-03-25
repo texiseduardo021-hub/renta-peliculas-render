@@ -14,6 +14,6 @@ export async function consume(url, id, params) {
     }
   } else {
     const error = await response.json();
-    alert(error.detalle || "Error al cargar");
+    alert(error.detail || "Error al cargar");
   }
 }
